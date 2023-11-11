@@ -1,5 +1,5 @@
-set number
-set relativenumber
+:set number
+:set relativenumber
 :set autoindent
 :set tabstop=2
 :set shiftwidth=2
@@ -7,12 +7,10 @@ set relativenumber
 :set smarttab
 :set softtabstop=2
 :set mouse=a
-:vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 call plug#begin("~/.config/nvim/plugged")
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'https://github.com/vim-scripts/asmx86'
-Plug 'https://github.com/vim-airline/vim-airline'
 Plug 'https://github.com/preservim/nerdtree'
 Plug 'https://github.com/tpope/vim-commentary'
 Plug 'https://github.com/rafi/awesome-vim-colorschemes'
@@ -20,16 +18,64 @@ Plug 'https://github.com/tc50cal/vim-terminal'
 Plug 'https://github.com/preservim/tagbar' 
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'numToStr/Comment.nvim'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'nvim-lualine/lualine.nvim'
 
 set encoding=UTF-8
 nmap <F8> :TagbarToggle<CR>
 :set completeopt-=preview 
-source ~/.config/nvim/plugged/awesome-vim-colorschemes/colors/gruvbox.vim " gruvbox
+source ~/.config/nvim/plugged/awesome-vim-colorschemes/colors/onehalflight.vim " gruvbox
 
 call plug#end()
 
-" Somewhere after plug#end()
- lua require('Comment').setup()
+lua << END
+require('lualine').setup {
+  options = {
+    icons_enabled = false,
+    theme = 'gruvbox',
+    component_separators = { "" },
+    section_separators = { "" },
+    disabled_filetypes = {
+      statusline = {},
+      winbar = {},
+    },
+    ignore_focus = {},
+    always_divide_middle = true,
+    globalstatus = false,
+    refresh = {
+      statusline = 1000,
+      tabline = 1000,
+      winbar = 1000,
+    }
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename', 'fileformat', {symbols = {
+        unix = 'e712', -- e712
+        dos = 'e70f',  -- e70f
+        mac = 'e711',  -- e711
+    }}},
+    lualine_x = {"os.date('%a')", 'data', "require'lsp-status'.status()"},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  winbar = {},
+  inactive_winbar = {},
+  extensions = {}
+}
+
+END
+
 
 nnoremap <C-u> :MarkdownPreviewStop<CR>
 nnoremap <C-p> :MarkdownPreview<CR>
@@ -216,3 +262,4 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
