@@ -20,6 +20,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'numToStr/Comment.nvim'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-lualine/lualine.nvim'
+Plug 'lervag/vimtex'
 
 set encoding=UTF-8
 nmap <F8> :TagbarToggle<CR>
@@ -72,42 +73,15 @@ require('lualine').setup {
   winbar = {},
   inactive_winbar = {},
   extensions = {}
+
 }
 
 END
-
 
 nnoremap <C-u> :MarkdownPreviewStop<CR>
 nnoremap <C-p> :MarkdownPreview<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
-
-map <C-J> :call CompileRunGcc()<CR>
-func! CompileRunGcc()
-exec "w"
-if &filetype == 'c'
-exec "!gcc % -o %<"
-exec "!time ./%<"
-elseif &filetype == 'cpp'
-exec "!g++ % -o %<"
-exec "!time ./%<"
-elseif &filetype == 'java'
-exec "!javac %"
-exec "!time java -cp %:p:h %:t:r"
-elseif &filetype == 'sh'
-exec "!time bash %"
-elseif &filetype == 'python'
-exec "!time python2.7 %"
-elseif &filetype == 'html'
-exec "!firefox % &"
-elseif &filetype == 'go'
-exec "!go build %<"
-exec "!time go run %"
-elseif &filetype == 'mkd'
-exec "!~/.vim/markdown.pl % > %.html &"
-exec "!firefox %.html &"
-endif
-endfunc
 
 " May need for vim (not neovim) since coc.nvim calculate byte offset by count
 " utf-8 byte sequence.
