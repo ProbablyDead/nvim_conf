@@ -30,17 +30,22 @@ source ~/.config/nvim/plugged/awesome-vim-colorschemes/colors/onehalflight.vim "
 call plug#end()
 
 "RUN APPLICATION"
-nnoremap <C-j> :RunSwift<CR>
+nnoremap <C-j> :Run<CR>
 
-command! RunSwift :call RunSwift()<CR>
+command! Run :call Run()<CR>
 
-function! RunSwift()
+function! Run()
   let filename = expand('%')
+
+  silent w | silent wincmd l
+
   if filename =~# '\.swift$'
-    silent w | silent wincmd l | execute ':!swift %'
+    execute ':!swift %'
     wincmd h 
+  elseif filename =~# '\.py$'
+    execute ':!python3 %'
   else
-    echo "Not a Swift file"
+    echo "Unsupproted file"
   endif
 endfunction
 
