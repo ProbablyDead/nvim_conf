@@ -21,6 +21,8 @@ Plug 'numToStr/Comment.nvim'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'lervag/vimtex'
+" web-prog
+Plug 'mattn/emmet-vim'
 
 set encoding=UTF-8
 nmap <F8> :TagbarToggle<CR>
@@ -37,13 +39,16 @@ command! Run :call Run()<CR>
 function! Run()
   let filename = expand('%')
 
-  silent w | silent wincmd l
+  silent wa | silent wincmd l
 
   if filename =~# '\.swift$'
     execute ':!swift %'
     wincmd h 
   elseif filename =~# '\.py$'
     execute ':!python3 %'
+  elseif filename =~# '\.html$'
+    execute ':!open -a Safari %' 
+    redraw!
   else
     echo "Unsupproted file"
   endif
