@@ -49,6 +49,8 @@ function! Run()
   elseif filename =~# '\.html$'
     execute ':!open -a Safari %' 
     redraw!
+  elseif filename =~# '\.go$'
+    execute ':!go run %'
   else
     echo "Unsupproted file"
   endif
