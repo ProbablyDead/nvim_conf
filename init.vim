@@ -51,6 +51,8 @@ function! Run()
     redraw!
   elseif filename =~# '\.go$'
     execute ':!go run %'
+  elseif filename =~# '\.cpp$'
+    execute ':!g++ % && ./a.out'
   else
     echo "Unsupproted file"
   endif
