@@ -7,6 +7,9 @@
 :set smarttab
 :set softtabstop=2
 :set mouse=a
+
+:let mapleader = " "
+
 call plug#begin("~/.config/nvim/plugged")
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -52,7 +55,7 @@ function! Run()
   elseif filename =~# '\.go$'
     execute ':!go run %'
   elseif filename =~# '\.cpp$'
-    execute ':!g++ % && ./a.out'
+    execute ':!g++ -std=c++20 % && ./a.out'
   else
     echo "Unsupproted file"
   endif
